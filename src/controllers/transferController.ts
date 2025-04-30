@@ -5,7 +5,7 @@ import TransactionModel, { TransactionStatus } from '../models/Transaction'
 import { TransferError } from '../errors/TransferError'
 import { transferOptimistic } from '../services/OptimisticNoRetry.services'
 import { transferStandart } from '../services/DefaultTransation.services'
-import { transferRepetableReadRetry } from '../services/RepetableRead.services.Retry'
+import { transferRepetableReadRetry } from '../services/RepetableReadRetry.services'
 import { transferPessimistic } from '../services/PessimisticTransaction.services'
 
 // Version 1 передаем колбек в метод transaction
