@@ -19,14 +19,12 @@ interface TransactionInt {
   amount: number
 }
 
-// UUID пользователей взятые из бд
 const USERS = {
   alexey: 'cba225a3-ff75-41e3-bcf5-2edc711a3350',
   marina: 'dbe8eb3b-475c-4a9d-9a7e-30e611bd49c4',
   igor: '9beb5dfe-10d6-4e1b-a996-38a5c74251a1',
 }
 
-// Генерация транзакций
 function generateTransaction(count: number): TransactionInt[] {
   const transactionArray: TransactionInt[] = []
 
@@ -59,9 +57,6 @@ function generateTransaction(count: number): TransactionInt[] {
 
 async function checkBalances(): Promise<void> {
   console.log('checking balance function called')
-  // Способ 3: Использовать raw: true в findAll
-  // Sequelize позволяет вернуть сразу простые объекты, а не экземпляры моделей,
-  // с опцией raw: true. Это похоже на .get({ plain: true }), но делается на уровне запроса
   const users = await User.findAll({
     attributes: ['id', 'name', 'balance'],
     raw: true,
@@ -106,17 +101,6 @@ async function checkBalances(): Promise<void> {
       console.log('ERROR: Expected balance is negative!')
     }
   }
-
-  // Преобразуем в простые объекты
-  // user.get({ plain: true }) возвращает только данные (dataValues) без метаданных Sequelize.
-  // map применяет это ко всем пользователям и транзакциям.
-  // const plainUsers = users.map((user) => user.get({ plain: true }))
-  // const plainTransactions = transaction.map((transaction) =>
-  //   transaction.get({ plain: true })
-  // )
-
-  // console.log('Users:', plainUsers)
-  // console.log('Transactions:', plainTransactions)
 }
 
 async function runTransaction(): Promise<void> {
@@ -140,7 +124,7 @@ async function runTransaction(): Promise<void> {
           trObj.amount,
           10
         )
-        // return transferStandart(trObj.fromUserId, trObj.toUserId, trObj.amount)
+
         return { success: true, index: index, result: result }
       } catch (error: any) {
         console.log('error', error)
@@ -173,34 +157,3 @@ async function runTransaction(): Promise<void> {
   }
 }
 runTransaction()
-
-/**
- * Твоё заблуждение:
-
-Ты подумал, что 8 % 3 даёт 2.6 или что-то связанное с дробной частью. Это не так.
-8 % 3 = 2, потому что после деления 8 на 3 (2 раза по 3 = 6) остаётся 2.
-Ты также упомянул "остаток 6" (8 / 3 = 2, остаток 6). Это неверно: остаток не может быть больше делителя (3). Остаток всегда от 0 до 2 для деления на 3.
-Вывод:
-
-Для деления на 3 (i % 3) возможны только три значения остатка:
-0 (например, 9 % 3 = 0).
-1 (например, 7 % 3 = 1).
-2 (например, 8 % 3 = 2).
-Поэтому i % 3 идеально подходит для трёх условий: if (i % 3 === 0), else if (i % 3 === 1), else (или else if (i % 3 === 2)).
- */
-
-// const array = [
-//   transferStandart(
-//     'dbe8eb3b-475c-4a9d-9a7e-30e611bd49c4',
-//     'cba225a3-ff75-41e3-bcf5-2edc711a3350',
-//     50
-//   ),
-//   transferStandart(
-//     'cba225a3-ff75-41e3-bcf5-2edc711a3350',
-//     'dbe8eb3b-475c-4a9d-9a7e-30e611bd49c4',
-//     200
-//   ),
-// ]
-// console.log('promise ready')
-// Promise.all(array).then((res) => console.log(res))
-// console.log('after promise')

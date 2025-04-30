@@ -46,12 +46,6 @@ export async function transferStandartSorted(
         }
       }
 
-      //Для теста вручную
-      // console.log('Transaction 1: Waiting...')
-      // await new Promise((resolve) => setTimeout(resolve, 30000))
-      // console.log('waiting end')
-
-      // Создаем запись о транзакции
       await TransactionModel.create(
         {
           fromUserId,

@@ -62,7 +62,4 @@ const TransactionModel = sequelize.define<TransactionInstance>('transactio', {
 
 console.log('log in TRansaction after init')
 
-// Transaction.belongsTo(User, { as: 'fromUser', foreignKey: 'fromUserId' })
-// Transaction.belongsTo(User, { as: 'toUser', foreignKey: 'toUserId' })
-
 export default TransactionModel

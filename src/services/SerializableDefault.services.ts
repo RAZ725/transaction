@@ -35,11 +35,6 @@ export async function transferSerializable(
           throw new TransferError('Not enough funds', 400, 'INSUFFICIENT_FUNDS')
         }
 
-        //Для теста вручную
-        // console.log('Transaction 1: Waiting...')
-        // await new Promise((resolve) => setTimeout(resolve, 30000))
-        // console.log('waiting end')
-
         const newFromBalance = fromUserNum - amount
         fromUser.balance = newFromBalance
         await fromUser.save({ transaction: t })
@@ -48,7 +43,6 @@ export async function transferSerializable(
         toUser.balance = newToBalance
         await toUser.save({ transaction: t })
 
-        // Создаем запись о транзакции
         await TransactionModel.create(
           {
             fromUserId,

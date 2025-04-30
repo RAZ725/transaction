@@ -44,7 +44,7 @@ async function initializeDatabase() {
     console.log('Зарегистрированные модели:', Object.keys(sequelize.models))
     console.log('Импортированные модели для отладки:', User, Transaction)
     await sequelize.sync({ alter: true })
-    // await sequelize.sync({ force: true })
+
     console.log('Database synchronized successfully.')
     await loadData()
   } catch (error) {
@@ -61,10 +61,3 @@ app.listen(PORT, async () => {
     console.log('error:', error)
   }
 })
-
-/**
- * Решение
-Чтобы исправить ошибки, нужно явно указать TypeScript,
-что объекты в bulkCreate соответствуют UserCreationAttributes, где id необязательно.
-Вот как это сделать:
- */

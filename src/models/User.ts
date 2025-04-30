@@ -9,7 +9,6 @@ interface UserAttributes {
   updatedAt?: Date
 }
 
-// Интерфейс для создания записи (id необязательно)
 interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
 
 type UserInstance = Model<UserAttributes, UserCreationAttributes> &

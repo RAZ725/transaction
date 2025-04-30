@@ -43,11 +43,6 @@ export async function transferRepetableReadRetry(
             )
           }
 
-          //Тест
-          // console.log('Transaction 1: Waiting...')
-          // await new Promise((resolve) => setTimeout(resolve, 50000))
-          // console.log('waiting end')
-
           const newFromBalance = fromUserNum - amount
           fromUser.balance = newFromBalance
           await fromUser.save({ transaction: t })
@@ -77,14 +72,9 @@ export async function transferRepetableReadRetry(
 
       const isRetryable =
         error.name === 'SequelizeDatabaseError' &&
-        (error.parent?.code === '40001' || // Serialization failure
-          error.parent?.code === '40P01') // Deadlock detected
+        (error.parent?.code === '40001' || error.parent?.code === '40P01')
 
       if (isRetryable && attempt < MAX_RETRIES) {
-        //Для искусвтенной задержки
-        // const delay = Math.pow(2, attempt) * 100
-        // console.log(`Retrying after ${delay}ms (attempt ${attempt + 1}/${MAX_RETRIES})`)
-        // await new Promise((resolve) => setTimeout(resolve, delay))
         attempt++
         continue
       }
@@ -124,44 +114,3 @@ export async function transferRepetableReadRetry(
     'MAX_RETRIES_REACHED'
   )
 }
-
-// while (attempt < MAX_RETRIES) {
-//   try {
-//     const resultTransfer = await sequelize.transaction(
-//       {
-//         isolationLevel: Transaction.ISOLATION_LEVELS.REPEATABLE_READ,
-//       },
-//       async (t) => {
-//         console.log('start async fn')
-//         const fromUser = await User.findByPk(fromUserId, { transaction: t })
-//         const toUser = await User.findByPk(toUserId, { transaction: t })
-//         if (!fromUser || !toUser) {
-//           throw new Error('One user is dont exist')
-//         }
-//         let fromUserNum = Number(fromUser.balance)
-//         let toUserNum = Number(toUser.balance)
-//         if (fromUserNum < amount) {
-//           throw new Error('Not enought founds')
-//         }
-//         console.log('Transaction 1: Waiting...')
-//         await new Promise((resolve) => setTimeout(resolve, 50000))
-//         console.log('waiting end')
-//         const newFromBalance = fromUserNum - amount
-//         fromUser.balance = newFromBalance
-//         await fromUser.save({ transaction: t })
-//         const newToBalance = toUserNum + amount
-//         toUser.balance = newToBalance
-//         await toUser.save({ transaction: t })
-//         // Создаем запись о транзакции
-//         await TransactionModel.create(
-//           {
-//             fromUserId,
-//             toUserId,
-//             amount,
-//             status: TransactionStatus.COMPLETED,
-//           },
-//           { transaction: t }
-//         )
-//         return { success: true }
-//       }
-//     )

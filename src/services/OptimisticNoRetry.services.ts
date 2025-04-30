@@ -45,7 +45,6 @@ export async function transferOptimistic(
       )
 
       if (fromUpdateCount === 0) {
-        // Конфликт: updatedAt изменился, перечитываем данные
         throw new TransferError(
           'Concurrent update detected',
           409,
@@ -72,7 +71,6 @@ export async function transferOptimistic(
         )
       }
 
-      // Создаем запись о транзакции
       await TransactionModel.create(
         {
           fromUserId,
@@ -101,12 +99,3 @@ export async function transferOptimistic(
     throw error
   }
 }
-
-/**
- * Ошибки в TypeScript: В TypeScript выброшенные ошибки (throw new Error(...)) не требуют явного указания в возвращаемом типе.
- * Если функция выбрасывает ошибку, Promise автоматически отклоняется (rejected) с объектом Error,
- * и это обрабатывается в блоке catch вызывающего кода (в твоем контроллере).
- *
- *
- *
- */

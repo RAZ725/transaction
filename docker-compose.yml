@@ -8,8 +8,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: money_transfer_database
-    # volumes:
-    #   - postgres_data:/var/lib/postgresql/data
+
     ports:
       - '5432:5432'
     healthcheck:
@@ -43,5 +42,3 @@ services:
         condition: service_healthy
     volumes:
       - .:/app
-# volumes:
-#   postgres_data:
