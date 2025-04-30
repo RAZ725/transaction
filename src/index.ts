@@ -2,7 +2,7 @@ import express from 'express'
 import sequelize from './config/database'
 import User from './models/User'
 import Transaction from './models/Transaction'
-import { transferFunds } from './controllers/transferController'
+import { transferFunds, updateBalance } from './controllers/transferController'
 import { UUID } from 'sequelize'
 
 const app = express()
@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/transfer', transferFunds)
+app.post('/update', updateBalance)
 
 async function loadData() {
   //Костыли
@@ -43,7 +44,7 @@ async function initializeDatabase() {
     console.log('Зарегистрированные модели:', Object.keys(sequelize.models))
     console.log('Импортированные модели для отладки:', User, Transaction)
     await sequelize.sync({ alter: true })
-    // await sequelize.sync({ force: false })
+    // await sequelize.sync({ force: true })
     console.log('Database synchronized successfully.')
     await loadData()
   } catch (error) {
@@ -53,6 +54,17 @@ async function initializeDatabase() {
 }
 
 app.listen(PORT, async () => {
-  await initializeDatabase()
-  console.log(`Server was running in port: ${PORT}`)
+  try {
+    await initializeDatabase()
+    console.log(`Server was running in port: ${PORT}`)
+  } catch (error) {
+    console.log('error:', error)
+  }
 })
+
+/**
+ * Решение
+Чтобы исправить ошибки, нужно явно указать TypeScript,
+что объекты в bulkCreate соответствуют UserCreationAttributes, где id необязательно.
+Вот как это сделать:
+ */
