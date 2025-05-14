@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import { Model, DataTypes } from 'sequelize'
-import sequelize from '../config/database'
-import User from './User'
-
-=======
 import { DataTypes, Model } from 'sequelize'
 import sequelize from '../config/database'
 import User from './User'
@@ -16,18 +10,12 @@ export interface TransactionAttributes {
   status: TransactionStatus
 }
 
->>>>>>> afef42b (Initial NestJS project)
 export enum TransactionStatus {
   PENDING = 'pending',
   COMPLETED = 'completed',
   FAILED = 'failed',
 }
 
-<<<<<<< HEAD
-console.log('log in TRansaction before init')
-
-const Transaction = sequelize.define('transactio', {
-=======
 export interface TransactionCreationAttributes
   extends Omit<TransactionAttributes, 'id'> {}
 
@@ -40,7 +28,6 @@ export type TransactionInstance = Model<
 console.log('log in TRansaction before init')
 
 const TransactionModel = sequelize.define<TransactionInstance>('transactio', {
->>>>>>> afef42b (Initial NestJS project)
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -75,11 +62,4 @@ const TransactionModel = sequelize.define<TransactionInstance>('transactio', {
 
 console.log('log in TRansaction after init')
 
-<<<<<<< HEAD
-// Transaction.belongsTo(User, { as: 'fromUser', foreignKey: 'fromUserId' })
-// Transaction.belongsTo(User, { as: 'toUser', foreignKey: 'toUserId' })
-
-export default Transaction
-=======
 export default TransactionModel
->>>>>>> afef42b (Initial NestJS project)
