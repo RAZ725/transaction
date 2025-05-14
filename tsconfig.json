@@ -1,19 +1,5 @@
 {
   "compilerOptions": {
-<<<<<<< HEAD
-    "target": "es2018",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.test.ts"]
-=======
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -32,5 +18,4 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   }
->>>>>>> afef42b (Initial NestJS project)
 }
