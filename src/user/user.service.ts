@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import sequelize from './config/database'
-import User from './models/User'
+import sequelize from '../config/database'
+import User from '../models/User'
 
 @Injectable()
-export class UpdateManuallyService {
+export class UserService {
   async updateBalance(userId: string, newBalance: number) {
     try {
       await sequelize.transaction(async (t) => {

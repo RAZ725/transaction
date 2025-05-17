@@ -1,5 +1,5 @@
 import User from '../src/models/User'
-import { TransferService } from '../src/transfer.service'
+import { TransferService } from '../src/transfer/transfer.service'
 import TransactionModel, { TransactionStatus } from '../src/models/Transaction'
 import { TransferError } from '../src/errors/TransferError'
 
