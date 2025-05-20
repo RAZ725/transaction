@@ -39,6 +39,7 @@ async function initializeDatabase() {
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule)
+    app.setGlobalPrefix('api')
     await app.listen(process.env.PORT ?? 3000, async () => {
       await initializeDatabase()
       console.log('server was running succes in port 3000')

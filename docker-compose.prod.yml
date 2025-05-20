@@ -5,38 +5,28 @@ services:
     image: postgres:15-alpine
     container_name: postgres_db_new
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: money_transfer_database_V2
-
-    ports:
-      - '5432:5432'
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PG_PORT: ${DB_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U user -d money_transfer_database_V2']
       interval: 10s
       timeout: 10s
       retries: 10
 
-  adminer:
-    image: adminer
-    container_name: adminer
-    ports:
-      - '8080:8080'
-    depends_on:
-      - postgres
-
   backend:
     build: .
     container_name: backend_container
     environment:
-      DB_HOST: postgres_db_new
-      DB_PORT: 5432
-      DB_USER: user
-      DB_PASSWORD: password
-      DB_NAME: money_transfer_database_V2
-      PORT: 3000
-    ports:
-      - '3000:3000'
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      PORT: ${PORT}
     depends_on:
       postgres:
         condition: service_healthy
@@ -48,5 +38,9 @@ services:
     container_name: nginx_container
     ports:
       - '80:80'
+      - '443:443'
     depends_on:
       - backend
+
+volumes:
+  postgres_data:

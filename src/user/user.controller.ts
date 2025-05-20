@@ -5,23 +5,23 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common'
-import { UpdateManuallyService } from './updateManually.service'
+import { UserService } from './user.service'
 
 interface UpdateBalanceData {
   userId: string
   newBalance: number
 }
 
-@Controller('update')
-export class UpdateManuallyController {
-  constructor(private readonly updateManuallyService: UpdateManuallyService) {}
+@Controller('users')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('/update-balance')
   async updateBalance(@Body() updateBalanceData: UpdateBalanceData) {
     const { userId, newBalance } = updateBalanceData
 
     try {
-      await this.updateManuallyService.updateBalance(userId, newBalance)
+      await this.userService.updateBalance(userId, newBalance)
     } catch (error: any) {
       throw new HttpException(
         {

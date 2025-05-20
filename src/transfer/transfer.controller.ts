@@ -7,7 +7,7 @@ import {
   Post,
 } from '@nestjs/common'
 import { TransferService } from './transfer.service'
-import { TransferError } from './errors/TransferError'
+import { TransferError } from '../errors/TransferError'
 
 interface TransferInterface {
   fromUserId: string

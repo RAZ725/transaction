@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import User from './models/User'
-import TransactionModel, { TransactionStatus } from './models/Transaction'
-import sequelize from './config/database'
-import { TransferError } from './errors/TransferError'
+import User from '../models/User'
+import TransactionModel, { TransactionStatus } from '../models/Transaction'
+import sequelize from '../config/database'
+import { TransferError } from '../errors/TransferError'
 import { Transaction } from 'sequelize'
 
 @Injectable()
