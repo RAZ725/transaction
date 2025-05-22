@@ -1,0 +1,46 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: tonkaaaa/myapp-backend-transaction
+
+      - name: Build and push nginx image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: Dockerfile.nginx
+          push: true
+          tags: tonkaaaa/myapp-nginx:latest
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: 46.149.70.215
+          username: root
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /projects/money-transfer
+            docker-compose -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.prod.yml up -d
